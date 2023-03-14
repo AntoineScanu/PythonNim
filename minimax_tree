@@ -1,0 +1,49 @@
+digraph {
+	2332235656656 [label="Max
+1
+(Gagnant)" color=black]
+	2332235656528 [label="Min
+-1
+(Perdant)" color=red]
+	2332235660752 [label="Max
+1
+(Gagnant)" color=black]
+	2332235656528 -> 2332235660752
+	2332235656592 [label="Max
+-1
+(Perdant)" color=red]
+	2332235659408 [label="Min
+-1
+(Perdant)" color=red]
+	2332235656592 -> 2332235659408
+	2332235656528 -> 2332235656592
+	2332235656656 -> 2332235656528
+	2332243626704 [label="Min
+1
+(Gagnant)" color=black]
+	2332243628816 [label="Max
+1
+(Gagnant)" color=black]
+	2332243626704 -> 2332243628816
+	2332235656656 -> 2332243626704
+	2332243635024 [label="Min
+-1
+(Perdant)" color=red]
+	2332243635216 [label="Max
+-1
+(Perdant)" color=red]
+	2332243635088 [label="Min
+-1
+(Perdant)" color=red]
+	2332243635216 -> 2332243635088
+	2332243635024 -> 2332243635216
+	2332243635280 [label="Max
+-1
+(Perdant)" color=red]
+	2332243635152 [label="Min
+-1
+(Perdant)" color=red]
+	2332243635280 -> 2332243635152
+	2332243635024 -> 2332243635280
+	2332235656656 -> 2332243635024
+}
