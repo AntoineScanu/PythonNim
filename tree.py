@@ -2,11 +2,11 @@ import graphviz
 from minimax import *
 
 class MinimaxNode:
-    def __init__(self, state, is_maximizing):
+    def __init__(self, etat, est_max):
         # Stocker l'état du jeu associé à ce nœud
-        self.state = state
+        self.etat = etat
         # Stocker le joueur associé à ce nœud (True pour maximiser, False pour minimiser)
-        self.is_maximizing = is_maximizing
+        self.est_max = est_max
         # Stocker les nœuds enfants de ce nœud (initialisé à une liste vide)
         self.children = []
         # Stocker le score associé à ce nœud (initialisé à None)
@@ -21,16 +21,16 @@ def build_minimax_tree(node):
     if node.score is not None:
         return
 
-    for new_state in possible_new_states(node.state):
-        child_node = MinimaxNode(new_state, not node.is_maximizing)
+    for nouvel_etat in possible_nouvel_etats(node.etat):
+        child_node = MinimaxNode(nouvel_etat, not node.est_max)
         node.children.append(child_node)
         build_minimax_tree(child_node)
 
-    node.score = minimax(node.state, node.is_maximizing)
+    node.score = minimax(node.etat, node.est_max)
 
 # Fonction récursive pour ajouter les nœuds à Graphviz
 def add_node_to_graph(graph, node):
-    label = f"{'Max' if node.is_maximizing else 'Min'}\n{node.score}"
+    label = f"{'Max' if node.est_max else 'Min'}\n{node.score}"
     
     # Ajouter une couleur différente pour les nœuds représentant des positions perdantes
     color = 'red' if node.score == -1 else 'black'

@@ -3,53 +3,52 @@ from minimax import *
 from tree import *
 
 # Fonction pour jouer au jeu de Nim
-def play_nim():
+def nim():
     # Initialisation des variables pour un jeu de Nim standard
-    state = (1,2)
-    player_turn = True  # Le joueur commence
+    etat = (1,2)
+    tour_du_joueur = True  # Le joueur commence
 
     # Construction de l'arbre Minimax à partir de l'état initial
-    root_node = MinimaxNode(state, True)
+    root_node = MinimaxNode(etat, True)
     build_minimax_tree(root_node)
 
     # Boucle principale du jeu
     while True:
-        print("Etat actuel :", state)
+        print("Etat actuel :", etat)
 
         # Le joueur joue
-        if player_turn:
+        if tour_du_joueur:
             print("Tour du joueur.")
             pile = int(input("Choisissez une pile : ")) - 1
-            remain = int(input("Choisissez le nombre d'éléments à enlever : "))
-            state = state[:pile] + (state[pile] - remain,) + state[pile + 1 :]
-            player_turn = False
+            restant = int(input("Choisissez le nombre d'éléments à enlever : "))
+            etat = etat[:pile] + (etat[pile] - restant,) + etat[pile + 1 :]
+            tour_du_joueur = False
 
         # L'ordinateur joue
         else:
             print("Tour de l'ordinateur.")
-            score, new_state = best_move(state)
+            score, nouvel_etat = best_move(etat)
             pile = -1
-            remain = -1
-            for i, (a, b) in enumerate(zip(state, new_state)):
+            restant = -1
+            for i, (a, b) in enumerate(zip(etat, nouvel_etat)):
                 if a != b:
                     pile = i
-                    remain = a - b
-            state = new_state
-            print(f"L'ordinateur a enlevé {remain} élément(s) de la pile {pile+1}.")
-            player_turn = True
+                    restant = a - b
+            etat = nouvel_etat
+            print(f"L'ordinateur a enlevé {restant} élément(s) de la pile {pile+1}.")
+            tour_du_joueur = True
 
         # Vérification de la fin de la partie
-        if all(counters == 0 for counters in state):
-            if not player_turn:
+        if all(allumettes == 0 for allumettes in etat):
+            if not tour_du_joueur:
                 print("L'ordinateur a gagné !")
             else:
                 print("Le joueur a gagné !")
-
             # Création du graphe avec Graphviz
             graph = graphviz.Digraph(format='png')
             add_node_to_graph(graph, root_node)
             graph.render('minimax_tree')
             break
-
+        
 # Lancement du jeu
-play_nim()
+nim()
