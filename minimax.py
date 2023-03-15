@@ -45,7 +45,7 @@ def possible_nouvel_etats(etat):
             # et en ajoutant un nouveau compteur avec la valeur restante
             yield etat[:pile] + (restant,) + etat[pile + 1 :]
             
-def best_move(etat):
+def meilleur_coup(etat):
     return max(
         ((score := minimax(nouvel_etat, est_max=False)), nouvel_etat)
         for nouvel_etat in possible_nouvel_etats(etat)
