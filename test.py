@@ -3,7 +3,7 @@ import graphviz             # Importation de la bibliothèque graphviz pour cré
 # Fonction pour jouer au jeu de Nim
 def nim():
     # Initialisation des variables pour un jeu de Nim standard
-    etat = (3,3)             # L'état initial est un ensemble de plusieurs élement, le chiffre est le nombre d'allumettes dans chaque pile
+    etat = (1,2)             # L'état initial est un ensemble de plusieurs élement, le chiffre est le nombre d'allumettes dans chaque pile
     tour_du_joueur = True    # La variable tour_du_joueur est un booléen qui indique si c'est le tour du joueur ou non
 
     # Construction de l'arbre Minimax à partir de l'état initial
@@ -117,30 +117,33 @@ class MinimaxNode:
         self.score = None
         
         self.isplayed=0
-
 # Fonction récursive pour construire l'arbre Minimax
-def build_minimax_tree(node):
+def build_minimax_tree(node, est_max=True):
     """Construit récursivement l'arbre Minimax à partir du nœud racine."""
     node.score = evaluer(node.etat,False)
     if node.score is not None:
         return
+    joueur = "MAX" if est_max else "MIN"
     for nouvel_etat in possible_nouvel_etats(node.etat):
-        print(nouvel_etat)
-        enfant_node = MinimaxNode(nouvel_etat, not node.est_max)
+        enfant_node = MinimaxNode(nouvel_etat, not est_max)
         enfant_node.score = minimax(nouvel_etat, enfant_node.est_max)
-        build_minimax_tree(enfant_node)
+        build_minimax_tree(enfant_node, not est_max)
         node.children.append(enfant_node)
     graph = graphviz.Digraph(format='png')
-    add_node_to_graph(graph, node, node.est_max)
+    add_node_to_graph(graph, node, joueur)
     
 
 # Fonction récursive pour ajouter les nœuds à Graphviz
-def add_node_to_graph(graph, node, est_max, parent_node=None):
+def add_node_to_graph(graph, node, joueur, parent_node=None):
     """Ajoute un nœud à un graphe Graphviz et récursivement tous ses enfants."""
-    label = f"{node.etat}\n({node.score})"
-    if est_max:
+    label = f"{node.etat}\n({node.score})\n RACINE"
+    if joueur == "MAX":
         shape = 'box'
-    else:
+        label = f"{node.etat}\n({node.score})\n C'est le tour du joueur"
+    elif joueur == "MIN":
+        shape = 'oval'
+        label = f"{node.etat}\n({node.score})\n C'est le tour de l'ordinateur"
+    else :
         shape = 'oval'
     # Ajout du noeud au graphe
     graph.node(str(id(node)), label=label, shape=shape)
@@ -149,6 +152,6 @@ def add_node_to_graph(graph, node, est_max, parent_node=None):
         graph.edge(str(id(parent_node)), str(id(node)))
     # Ajout des enfants du noeud actuel
     for child_node in node.children:
-        add_node_to_graph(graph, child_node, not est_max, node)
+        add_node_to_graph(graph, child_node, "MIN" if joueur == "MAX" else "MAX", node)
 
 nim()
