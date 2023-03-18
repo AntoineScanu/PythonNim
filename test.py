@@ -121,18 +121,25 @@ class MinimaxNode:
 # Fonction récursive pour construire l'arbre Minimax
 def build_minimax_tree(node):
     """Construit récursivement l'arbre Minimax à partir du nœud racine."""
+    # Évalue le score de l'état actuel
     node.score = evaluer(node.etat,False)
+    # Si l'état actuel est un état final, on arrête la construction de l'arbre
     if node.score is not None:
         return
+    # Pour chaque nouvel état possible à partir de l'état actuel
     for nouvel_etat in possible_nouvel_etats(node.etat):
-        print(nouvel_etat)
+        # Créer un nœud enfant avec le nouvel état
         enfant_node = MinimaxNode(nouvel_etat, not node.est_max)
+        # Évalue le score du nœud enfant avec l'algorithme Minimax
         enfant_node.score = minimax(nouvel_etat, enfant_node.est_max)
+        # Construit récursivement l'arbre Minimax à partir du nœud enfant
         build_minimax_tree(enfant_node)
+        # Ajoute le nœud enfant à la liste des enfants du nœud actuel
         node.children.append(enfant_node)
+        # Crée un graphe Graphviz pour visualiser l'arbre Minimax
     graph = graphviz.Digraph(format='png')
+    # Ajoute le nœud actuel au graphe avec sa couleur correspondant au joueur en cours
     add_node_to_graph(graph, node, node.est_max)
-    
 
 # Fonction récursive pour ajouter les nœuds à Graphviz
 def add_node_to_graph(graph, node, est_max, parent_node=None):
