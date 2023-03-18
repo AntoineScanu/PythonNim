@@ -23,7 +23,7 @@ def nim():
             restant = int(input("Choisissez le nombre d'éléments à enlever : "))  # Le joueur choisit le nombre d'allumettes à enlever en entrant un nombre
             etat = etat[:pile] + (etat[pile] - restant,) + etat[pile + 1 :]  # Modification de l'état du jeu en enlevant le nombre d'allumettes choisi dans la pile choisie
             tour_du_joueur = False   # Le tour du joueur est terminé, c'est au tour de l'ordinateur
-
+    
         # L'ordinateur joue
         else:
             print("Tour de l'ordinateur.")
@@ -46,11 +46,9 @@ def nim():
                 print("Le joueur a gagné !")
             # Création du graphe avec Graphviz
 
-            # Création du graphe avec Graphviz
             graph = graphviz.Digraph(format='png')
             add_node_to_graph(graph, root_node)
             graph.render('minimax_tree')
-            break
-        
+            break        
 # Lancement du jeu
 nim()
